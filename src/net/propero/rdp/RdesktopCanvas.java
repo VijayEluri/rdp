@@ -391,6 +391,10 @@ public abstract class RdesktopCanvas extends Canvas {
 	 *            Colour of rectangle
 	 */
 	public void fillRectangle(int x, int y, int cx, int cy, int color) {
+		if(cx != this.width || cy != this.height){
+			backstore = new WrappedImage(cx, cy, BufferedImage.TYPE_INT_RGB);
+		}
+		
 		// clip here instead
 		if (x > this.right || y > this.bottom)
 			return; // off screen
@@ -426,6 +430,7 @@ public abstract class RdesktopCanvas extends Canvas {
 		for (int i = 0; i < rect.length; i++)
 			rect[i] = color;
 		// draw rectangle to backstore
+		
 		backstore.setRGB(x, y, cx, cy, rect, 0, cx);
 
 		// if(logger.isInfoEnabled()) logger.info("rect
