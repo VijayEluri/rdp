@@ -1,9 +1,9 @@
 /* MapDef.java
  * Component: ProperJavaRDP
  * 
- * Revision: $Revision: 12 $
- * Author: $Author: miha_vitorovic $
- * Date: $Date: 2007-05-11 13:49:09 +0200 (Fri, 11 May 2007) $
+ * Revision: $Revision$
+ * Author: $Author$
+ * Date: $Date$
  *
  * Copyright (c) 2005 Propero Limited
  *
@@ -230,8 +230,8 @@ public class MapDef {
 	protected boolean appliesToTyped(KeyEvent e, boolean capslock) {
 
 		if (Constants.OS == Constants.MAC) {
-			// Remap the hash key to ง
-			if (Options.remap_hash && (e.getKeyChar() == 'ง')) {
+			// Remap the hash key to ยง
+			if (Options.remap_hash && (e.getKeyChar() == 'ยง')) {
 				return ((characterDef) && (this.keyChar == '#'));
 			}
 
