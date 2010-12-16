@@ -523,6 +523,14 @@ public abstract class Input {
 					logger.debug("shortcut pressed: sent CTRL+ALT+DEL");
 			}
 			break;
+		case KeyEvent.VK_BACK_SPACE: // Ctrl+Alt+BackSpace = Ctrl+Alt+Del
+			if (ctrlDown) {
+				sendScancode(time, pressed ? RDP_KEYPRESS : RDP_KEYRELEASE,
+						0x53 | KeyCode.SCANCODE_EXTENDED); // DEL
+				if (pressed)
+					logger.debug("shortcut pressed: sent CTRL+ALT+DEL");
+			}
+			break;
 		case KeyEvent.VK_DELETE: // Alt + Delete = Menu
 			if (pressed) {
 				sendScancode(time, RDP_KEYRELEASE, 0x38); // ALT
