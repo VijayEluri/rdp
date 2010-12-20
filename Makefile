@@ -6,6 +6,7 @@ KEYSTORE_ALIAS = "steam"
 
 compile:
 	@(javac $(FLAGS) $(SOURCES))
+	@(mkdir -p bin/keymaps)
 	@(find keymaps -type f -not -regex ".*svn.*" -exec cp {} bin/{} \;)
 
 jar: compile
