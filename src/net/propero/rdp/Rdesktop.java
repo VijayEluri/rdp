@@ -285,13 +285,14 @@ public class Rdesktop {
 		logger.setLevel(Level.INFO);
 
 		// Attempt to run a native RDP Client
-
-		RDPClientChooser Chooser = new RDPClientChooser();
-
-		if (Chooser.RunNativeRDPClient(args)) {
-			if (!Common.underApplet)
-				System.exit(0);
-		}
+		
+		// We don't want to run native client automatically -- dam
+//		RDPClientChooser Chooser = new RDPClientChooser();
+//
+//		if (Chooser.RunNativeRDPClient(args)) {
+//			if (!Common.underApplet)
+//				System.exit(0);
+//		}
 
 		// Failed to run native client, drop back to Java client instead.
 
