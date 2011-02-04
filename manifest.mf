@@ -1,3 +1,6 @@
 Manifest-Version: 1.0
-Class-Path: java-getopt-1.0.13.jar log4j-java1.1.jar
 Created-By: Cabo Communications A/S
+Class-Path: lib/java-getopt-1.0.13.jar lib/log4j-java1.1.jar
+Main-Class: net.propero.rdp.Rdesktop
+
+  

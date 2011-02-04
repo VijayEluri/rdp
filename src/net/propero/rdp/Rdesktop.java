@@ -228,7 +228,7 @@ public class Rdesktop {
 		System.err.println("	-d DOMAIN					logon domain");
 		System.err
 				.println("	-f[l]						full-screen mode [with Linux KDE optimization]");
-		System.err.println("	-g WxH						desktop geometry");
+		System.err.println("	-g WxH						initial desktop size");
 		System.err
 				.println("	-m MAPFILE					keyboard mapping file for terminal server");
 		System.err
@@ -271,7 +271,6 @@ public class Rdesktop {
 	 * @throws RdesktopException
 	 */
 	public static void main(String[] args) throws RdesktopException {
-
 		// Ensure that static variables are properly initialised
 		keep_running = true;
 		loggedon = false;
@@ -283,7 +282,7 @@ public class Rdesktop {
 
 		BasicConfigurator.configure();
 		logger.setLevel(Level.INFO);
-
+		
 		// Attempt to run a native RDP Client
 		
 		// We don't want to run native client automatically -- dam

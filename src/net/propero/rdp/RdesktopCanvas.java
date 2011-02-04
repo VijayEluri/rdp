@@ -31,6 +31,7 @@
 package net.propero.rdp;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -135,10 +136,15 @@ public abstract class RdesktopCanvas extends Canvas {
 		this.right = width - 1; // changed
 		this.bottom = height - 1; // changed
 		setSize(width, height);
-
 		backstore = new WrappedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 		// now do input listeners in registerCommLayer() / registerKeyboard()
+	}
+	
+	public void resizeCanvas(int width, int height){
+		this.width = width;
+		this.height = height;
+		setSize(width, height);
 	}
 
 	public void paint(Graphics g) {
@@ -245,8 +251,8 @@ public abstract class RdesktopCanvas extends Canvas {
 		Graphics g = backstore.getGraphics();
 		g.drawImage(img, x, y, null);
 		/* ********* Useful test for identifying image boundaries ************ */
-		// g.setColor(Color.RED);
-		// g.drawRect(x,y,data.getWidth(null),data.getHeight(null));
+		g.setColor(Color.RED);
+		g.drawRect(x,y,img.getWidth(null),img.getHeight(null));
 		g.dispose();
 
 	}
@@ -275,6 +281,7 @@ public abstract class RdesktopCanvas extends Canvas {
 			int cy) {
 
 		backstore.setRGB(x, y, cx, cy, data, 0, w);
+
 
 		/* ********* Useful test for identifying image boundaries ************ */
 		// Graphics g = backstore.getGraphics();

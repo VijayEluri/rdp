@@ -4,6 +4,8 @@ LIBS = lib/java-getopt-1.0.13.jar:lib/log4j-java1.1.jar
 FLAGS = -target 1.5 -classpath $(LIBS) -d $(OUTPUT)
 KEYSTORE_ALIAS = "steam"
 
+all: jar
+
 compile:
 	@(javac $(FLAGS) $(SOURCES))
 	@(mkdir -p bin/keymaps)
@@ -16,7 +18,12 @@ sign: jar
 	@(jarsigner -signedjar rdps.jar rdp.jar $(KEYSTORE_ALIAS))
 	@(mv rdps.jar rdp.jar)
 
-all: jar
+run: 
+	java -jar rdp.jar
+
+
+
+
 
 
 

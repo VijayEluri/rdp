@@ -221,9 +221,9 @@ public class Rdp {
 
 	protected Secure SecureLayer = null;
 
-	private RdesktopFrame frame = null;
+	private static RdesktopFrame frame = null;
 
-	private RdesktopCanvas surface = null;
+	private static RdesktopCanvas surface = null;
 
 	protected Orders orders = null;
 
@@ -350,8 +350,13 @@ public class Rdp {
 					+ Options.height + " to " + width + "x" + height);
 			Options.width = width;
 			Options.height = height;
-			// ui_resize_window(); TODO: implement resize thingy
+			ui_resize_window(); 
 		}
+	}
+	
+	static void ui_resize_window(){
+		surface.resize(Options.width, Options.height);
+		frame.pack();
 	}
 
 	/**
@@ -368,6 +373,7 @@ public class Rdp {
 		start = data.getPosition();
 
 		ncapsets = data.getLittleEndian16(); // in_uint16_le(s, ncapsets);
+		
 		data.incrementPosition(2); // in_uint8s(s, 2); /* pad */
 
 		for (n = 0; n < ncapsets; n++) {
@@ -378,7 +384,7 @@ public class Rdp {
 			// capset_type);
 			capset_length = data.getLittleEndian16(); // in_uint16_le(s,
 			// capset_length);
-
+			
 			next = data.getPosition() + capset_length - 4;
 
 			switch (capset_type) {
@@ -894,7 +900,21 @@ public class Rdp {
 			OrderException {
 		int type[] = new int[1];
 
+//		in_uint32_le(s, g_rdp_shareid);
+//		in_uint16_le(s, len_src_descriptor);
+//		in_uint16_le(s, len_combined_caps);
+//		in_uint8s(s, len_src_descriptor);
+//		
 		this.rdp_shareid = data.getLittleEndian32();
+		int len_src_desc = data.getLittleEndian16();
+		int len_caps = data.getLittleEndian16();
+		
+		data.incrementPosition(len_src_desc);
+		
+		System.out.println("length" + len_caps);
+		logger.info("DemandActive(id=" + this.rdp_shareid + ")");
+		processServerCaps(data, len_caps);
+		
 
 		this.sendConfirmActive();
 
@@ -1440,6 +1460,21 @@ public class Rdp {
 			bottom = data.getLittleEndian16();
 			width = data.getLittleEndian16();
 			height = data.getLittleEndian16();
+			
+			boolean doPack = false;
+//			if(right > minX - 1){
+//				surface.growCanvas(right + 1, minY);
+//				doPack = true;
+//			}
+//			if(bottom > minY - 1){
+//				surface.growCanvas(minX, bottom + 1);
+//				doPack = true;
+//			}
+//			if(doPack){
+//				frame.pack();
+//				surface.repaint();
+//			}
+			
 			bitsperpixel = data.getLittleEndian16();
 			int Bpp = (bitsperpixel + 7) / 8;
 			compression = data.getLittleEndian16();
@@ -1483,7 +1518,8 @@ public class Rdp {
 				// logger.info("compression & 0x400 != 0");
 				size = buffersize;
 			} else {
-				// logger.info("compression & 0x400 == 0");
+				// logger.info("compression & 0x400 == 0");//		this.right = width - 1; // changed
+//				this.bottom = height - 1; // changed
 				data.incrementPosition(2); // pad
 				size = data.getLittleEndian16();
 
