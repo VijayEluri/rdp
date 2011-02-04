@@ -355,7 +355,7 @@ public class Rdp {
 	}
 	
 	static void ui_resize_window(){
-		surface.resize(Options.width, Options.height);
+		surface.resizeCanvas(Options.width, Options.height);
 		frame.pack();
 	}
 
@@ -1438,7 +1438,6 @@ public class Rdp {
 
 	protected void processBitmapUpdates(RdpPacket_Localised data)
 			throws RdesktopException {
-		// logger.info("processBitmapUpdates");
 		int n_updates = 0;
 		int left = 0, top = 0, right = 0, bottom = 0, width = 0, height = 0;
 		int cx = 0, cy = 0, bitsperpixel = 0, compression = 0, buffersize = 0, size = 0;
@@ -1460,20 +1459,6 @@ public class Rdp {
 			bottom = data.getLittleEndian16();
 			width = data.getLittleEndian16();
 			height = data.getLittleEndian16();
-			
-			boolean doPack = false;
-//			if(right > minX - 1){
-//				surface.growCanvas(right + 1, minY);
-//				doPack = true;
-//			}
-//			if(bottom > minY - 1){
-//				surface.growCanvas(minX, bottom + 1);
-//				doPack = true;
-//			}
-//			if(doPack){
-//				frame.pack();
-//				surface.repaint();
-//			}
 			
 			bitsperpixel = data.getLittleEndian16();
 			int Bpp = (bitsperpixel + 7) / 8;

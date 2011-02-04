@@ -144,6 +144,7 @@ public abstract class RdesktopCanvas extends Canvas {
 	public void resizeCanvas(int width, int height){
 		this.width = width;
 		this.height = height;
+		backstore = new WrappedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		setSize(width, height);
 	}
 
@@ -398,9 +399,6 @@ public abstract class RdesktopCanvas extends Canvas {
 	 *            Colour of rectangle
 	 */
 	public void fillRectangle(int x, int y, int cx, int cy, int color) {
-		if(cx != this.width || cy != this.height){
-			backstore = new WrappedImage(cx, cy, BufferedImage.TYPE_INT_RGB);
-		}
 		
 		// clip here instead
 		if (x > this.right || y > this.bottom)
