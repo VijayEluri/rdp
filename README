@@ -1,0 +1,33 @@
+JavaRDP - A RDP client in Java
+==============================
+
+What is JavaRDP
+---------------
+
+JavaRDP is a fork of the properJavaRdp client. Most notably this
+client features auto resizing of the screen display.
+
+How to build JavaRdp
+--------------------
+JavaRdp uses make for building. 
+
+`make`
+
+builds the project
+
+`make runserver` 
+
+runs a development server to run the applet. Before running this you must create a certificate which is used to sign the jar `keytool -genkey -alias dev -keypass 123456`
+
+How to run JavaRDP
+-----------------
+You run JavaRDP either as standalone or as an Applet.
+You run the standalone by:
+
+`java -jar rdp.jar [server[:port]]}`
+
+The applet is run by:
+`make runserver`
+And pointing your browser at localhost:8080
+
+

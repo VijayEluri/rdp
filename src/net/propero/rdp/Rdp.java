@@ -571,6 +571,7 @@ public class Rdp {
 					"Connection timed out when attempting to connect to "
 							+ server);
 		} catch (IOException e) {
+			e.printStackTrace();
 			throw new ConnectionException("Connection Failed");
 		} catch (RdesktopException e) {
 			throw new ConnectionException(e.getMessage());
@@ -599,8 +600,6 @@ public class Rdp {
 		return this.connected;
 	}
 
-	boolean deactivated;
-
 	int ext_disc_reason;
 
 	/**
@@ -627,7 +626,7 @@ public class Rdp {
 
 		RdpPacket_Localised data = null;
 
-		while (cont) {
+		while (cont) {	
 			try {
 				data = this.receive(type);
 				if (data == null)
@@ -635,9 +634,9 @@ public class Rdp {
 			} catch (EOFException e) {
 				return;
 			}
-
+			
 			switch (type[0]) {
-
+			
 			case (Rdp.RDP_PDU_DEMAND_ACTIVE):
 				logger.debug("Rdp.RDP_PDU_DEMAND_ACTIVE");
 				// get this after licence negotiation, just before the 1st
@@ -654,6 +653,7 @@ public class Rdp {
 				break;
 
 			case (Rdp.RDP_PDU_DEACTIVATE):
+				logger.debug("RDP_PDU_DEACTIVATE");
 				// get this on log off
 				deactivated[0] = true;
 				this.stream = null; // ty this fix
@@ -676,8 +676,9 @@ public class Rdp {
 						+ type[0]);
 			}
 
-			if (disc)
+			if (disc){
 				return;
+			}
 		}
 		return;
 	}
@@ -962,7 +963,6 @@ public class Rdp {
 		switch (data_type) {
 
 		case (Rdp.RDP_DATA_PDU_UPDATE):
-			logger.debug("Rdp.RDP_DATA_PDU_UPDATE");
 			this.processUpdate(data);
 			break;
 
@@ -993,7 +993,7 @@ public class Rdp {
 			 * console session on Windows XP and 2003 Server
 			 */
 			ext_disc_reason[0] = processDisconnectPdu(data);
-			logger.debug(("Received disconnect PDU\n"));
+			logger.debug("Received disconnect PDU: reason: " + ext_disc_reason[0]);
 			return true;
 
 		default:

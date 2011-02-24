@@ -598,7 +598,7 @@ public class Rdesktop {
 		boolean[] deactivated = new boolean[1];
 		int[] ext_disc_reason = new int[1];
 
-		logger.debug("keep_running = " + keep_running);
+		// Is the purpose of this loop only to retry connecting? -- Jakob
 		while (keep_running) {
 			logger.debug("Initialising RDP layer...");
 			RdpLayer = new Rdp5(channels);
@@ -690,6 +690,7 @@ public class Rdesktop {
 					// End
 
 				} catch (ConnectionException e) {
+					e.printStackTrace();
 					String msg[] = { "Connection Exception", e.getMessage() };
 					window.showErrorDialog(msg);
 					Rdesktop.exit(0, RdpLayer, window, true);
@@ -733,7 +734,7 @@ public class Rdesktop {
 						}
 					} else {
 						String msg[] = { e.getMessage() };
-						window.showErrorDialog(msg);
+						window.showErrorDialog(msg);	
 						Rdesktop.exit(0, RdpLayer, window, true);
 					}
 				} catch (Exception e) {
@@ -745,7 +746,7 @@ public class Rdesktop {
 				logger
 						.fatal("The communications layer could not be initiated!");
 			}
-		}
+	}
 		Rdesktop.exit(0, RdpLayer, window, true);
 	}
 
@@ -771,9 +772,7 @@ public class Rdesktop {
 		// End
 
 		if (rdp != null && rdp.isConnected()) {
-			logger.info("Disconnecting ...");
 			rdp.disconnect();
-			logger.info("Disconnected");
 		}
 		if (window != null) {
 			window.setVisible(false);

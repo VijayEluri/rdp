@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>RDP Example</title>
+    <meta name="description" content="RDP display example">
+    <meta name="author" content="Jakob A. Dam">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+    <style>
+input {
+  width: 200px;
+  padding: 4px 0px 4px 0px;
+  margin: 5px 5px 0px 0px;
+  display: block;
+}
+form {
+  margin: 5px 10px 0px 0px;
+}
+    </style>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/resources/dojo.css" /> 
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/tundra/tundra.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js" djConfig="isDebug:true,parseOnLoad:true"></script>
+  </head>
+  <body class="tundra">
+    <nav></nav>
+    <h1>RDP in the browser</h1>
+    <p>This example connects to an RDP server at the specified host
+    and port. On Linux, the easiest way to test the RDP client is to
+    run a virtual server via virtualbox and enable remote display
+    under server settings -> display.</p>
+    <form id="form">
+      <fieldset class="main_fieldset">
+        <div class="vf__notice">
+          <p>All fields are required.</p>
+        </div>
+        <ol>
+          <li>
+            <label ="Server port" tooltip="Server port" for="port">
+              Port<span class="asterisk_required">*</span>
+            </label>
+            <input type="text" name="port" id="port" label="Port" placeholder="enter port" required="required" />
+          </li>
+          <li>
+            <label tooltip="Server address" for="server">
+              Server<span class="asterisk_required">*</span>
+            </label>
+            <input type="text" name="server" id="server" label="Server" placeholder="enter server" required="required" />
+          </li>
+          <li>
+            <label tooltip="Language for keymapping" for="keymap">
+              Keymap<span class="asterisk_required">*</span>
+            </label>
+            <select name="keymap" id="keymap" label="Keymap" required="required">
+              <option value="">Select a keymap</option>
+              <option>en-us</option>
+              <option>ar</option>
+              <option>da</option>
+              <option>de</option>
+              <option>en-gb</option>
+              <option>es</option>
+              <option>fi</option>
+              <option>fr</option>
+              <option>fr-be</option>
+              <option>hr</option>
+              <option>it</option>
+              <option>ja</option>
+              <option>lt</option>
+              <option>lv</option>
+              <option>mk</option>
+              <option>no</option>
+              <option>pl</option>
+              <option>pt</option>
+              <option>pt-br</option>
+              <option>ru</option>
+              <option>sl</option>
+              <option>sv</option>
+              <option>tk</option> 
+              <option>tr</option>
+            </select>
+          </li>
+        </ol>
+        <button>connect</button>
+      </fieldset>
+    </form>
+
+    <div id="applet"></div>
+
+    <footer></footer> 
+
+    <script src="/js/display.js"></script>
+  <script>
+dojo.ready(function(){
+
+  function getProps(){
+    return {
+      server: dojo.byId('server').value,
+      port: dojo.byId('port').value,
+      keymap: dojo.byId('keymap').value
+    };
+  }
+
+  dojo.byId('form').onsubmit = function(e){
+    if(this.checkValidity && !this.checkValidity()){
+      alert("please fill out form");
+    }
+    else{
+      display.start('applet', getProps());
+    }
+    return false;
+  }
+});
+    </script>
+  </body>
+</html>

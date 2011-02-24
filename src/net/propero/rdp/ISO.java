@@ -220,14 +220,20 @@ public abstract class ISO {
 	public RdpPacket_Localised receive() throws IOException, RdesktopException,
 			OrderException, CryptoException {
 		int[] type = new int[1];
-		RdpPacket_Localised buffer = receiveMessage(type);
-		if (buffer == null)
-			return null;
-		if (type[0] != DATA_TRANSFER) {
-			throw new RdesktopException("Expected DT got:" + type[0]);
+		try{
+			RdpPacket_Localised buffer = receiveMessage(type);
+			if (type[0] != DATA_TRANSFER) {
+				throw new RdesktopException("Expected DT got:" + type[0]);
+			}
+			return buffer;
 		}
-
-		return buffer;
+		catch(IOException e){
+			// eat exception if disconnected 
+			if(rdpsock == null || in == null || out == null){
+				return null;
+			}
+			throw e;
+		}
 	}
 
 	/**
@@ -252,9 +258,6 @@ public abstract class ISO {
 
 		in.readFully(packet, 0, length);
 
-		// try{ }
-		// catch(IOException e){ logger.warn("IOException: " + e.getMessage());
-		// return null; }
 		if (Options.debug_hexdump)
 			dump.encode(packet, "RECEIVE" /* System.out */);
 
@@ -340,16 +343,23 @@ public abstract class ISO {
 	 * Disconnect from an RDP session, closing all sockets
 	 */
 	public void disconnect() {
+		logger.info("ISO Layer disconnect");
 		if (rdpsock == null)
 			return;
 		try {
 			sendMessage(DISCONNECT_REQUEST);
-			if (in != null)
+			if (in != null){
+				logger.info("Closing input stream");
 				in.close();
-			if (out != null)
+			}
+			if (out != null){
+				logger.info("Closing output stream");
 				out.close();
-			if (rdpsock != null)
+			}
+			if (rdpsock != null){
+				logger.info("Closing rdpsocket");
 				rdpsock.close();
+			}
 		} catch (IOException e) {
 			in = null;
 			out = null;

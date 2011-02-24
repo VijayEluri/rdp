@@ -55,7 +55,6 @@ import net.propero.rdp.rdp5.cliprdr.ClipChannel;
 
 import org.apache.log4j.Logger;
 
-// import javax.swing.Box;
 
 public abstract class RdesktopFrame extends Frame {
 
@@ -236,7 +235,6 @@ public abstract class RdesktopFrame extends Frame {
 	class RdesktopWindowAdapter extends WindowAdapter {
 
 		public void windowClosing(WindowEvent e) {
-			hide();
 			Rdesktop.exit(0, rdp, (RdesktopFrame) e.getWindow(), true);
 		}
 
