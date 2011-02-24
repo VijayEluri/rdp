@@ -1,10 +1,7 @@
 package net.propero.rdp.applet;
 
 import java.applet.Applet;
-import java.net.MalformedURLException;
-import java.net.URL;
 
-import net.propero.rdp.Common;
 import net.propero.rdp.Rdesktop;
 import net.propero.rdp.RdesktopException;
 

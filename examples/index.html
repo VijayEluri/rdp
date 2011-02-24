@@ -31,29 +31,28 @@ form {
     run a virtual server via virtualbox and enable remote display
     under server settings -> display.</p>
     <form id="form">
-      <fieldset class="main_fieldset">
+      <fieldset>
         <div class="vf__notice">
           <p>All fields are required.</p>
         </div>
         <ol>
           <li>
-            <label ="Server port" tooltip="Server port" for="port">
+            <label tooltip="port" for="port">
               Port<span class="asterisk_required">*</span>
             </label>
             <input type="text" name="port" id="port" label="Port" placeholder="enter port" required="required" />
           </li>
           <li>
-            <label tooltip="Server address" for="server">
-              Server<span class="asterisk_required">*</span>
+            <label tooltip="host" for="host">
+              Host<span class="asterisk_required">*</span>
             </label>
-            <input type="text" name="server" id="server" label="Server" placeholder="enter server" required="required" />
+            <input type="text" name="host" id="host" label="Host" placeholder="enter host" required="required" />
           </li>
           <li>
             <label tooltip="Language for keymapping" for="keymap">
               Keymap<span class="asterisk_required">*</span>
             </label>
             <select name="keymap" id="keymap" label="Keymap" required="required">
-              <option value="">Select a keymap</option>
               <option>en-us</option>
               <option>ar</option>
               <option>da</option>
@@ -85,28 +84,30 @@ form {
       </fieldset>
     </form>
 
-    <div id="applet"></div>
+    <div id="applets"></div>
 
     <footer></footer> 
 
-    <script src="/js/display.js"></script>
+    <script src="/js/applet.js"></script>
+    <script src="/js/rdp.js"></script>
   <script>
 dojo.ready(function(){
 
-  function getProps(){
+  function getArgs(){
     return {
-      server: dojo.byId('server').value,
+      host: dojo.byId('host').value,
       port: dojo.byId('port').value,
       keymap: dojo.byId('keymap').value
     };
   }
 
   dojo.byId('form').onsubmit = function(e){
+    e.preventDefault();
     if(this.checkValidity && !this.checkValidity()){
       alert("please fill out form");
     }
     else{
-      display.start('applet', getProps());
+      rdp.start('applets', getArgs());
     }
     return false;
   }

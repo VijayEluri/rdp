@@ -34,6 +34,7 @@ import java.applet.Applet;
 import java.util.StringTokenizer;
 
 import net.propero.rdp.Common;
+import net.propero.rdp.Rdesktop;
 
 public class RdpApplet extends Applet {
 
@@ -83,7 +84,7 @@ public class RdpApplet extends Applet {
 		argLine += " " + genFlag("--debug_hex", "debug_hex");
 		argLine += " " + genFlag("--no_remap_hash", "no_remap_hash");
 
-		argLine += " " + genParam("", "server");
+		argLine += " " + genParam("", "host");
 
 		String[] args;
 		StringTokenizer tok = new StringTokenizer(argLine, " ");
