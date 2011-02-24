@@ -14,7 +14,7 @@ dojo.require("dojo.string");
         code: "net.propero.rdp.applet.RdpApplet",
         port: args.port,
         host: args.host,
-        window_title: "RDP Viewer",
+        title: args.title,
         debug_level: "debug"
       });
     }
