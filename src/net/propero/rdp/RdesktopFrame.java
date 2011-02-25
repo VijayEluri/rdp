@@ -370,7 +370,7 @@ public abstract class RdesktopFrame extends Frame {
 	 */
 	public boolean showYesNoErrorDialog(String[] msg) {
 
-		YesNoDialog d = new YesNoDialog(this, "properJavaRDP error", msg);
+		YesNoDialog d = new YesNoDialog(this, Options.windowTitle + " error", msg);
 		d.show();
 		return d.retry;
 	}
@@ -382,7 +382,7 @@ public abstract class RdesktopFrame extends Frame {
 	 *            Array of message lines to display in dialog box
 	 */
 	public void showErrorDialog(String[] msg) {
-		Dialog d = new OKDialog(this, "properJavaRDP error", msg);
+		Dialog d = new OKDialog(this, Options.windowTitle +  " error", msg);
 		d.show();
 	}
 

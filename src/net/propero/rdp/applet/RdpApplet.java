@@ -70,7 +70,7 @@ public class RdpApplet extends Applet {
 		argLine += " " + genParam("-p", "password");
 		argLine += " " + genParam("-n", "hostname");
 		argLine += " " + genParam("-t", "port");
-		argLine += " " + genParam("-l", "debug_level");
+		argLine += " " + genParam("-l", "log_level");
 		argLine += " " + genParam("-s", "shell");
 		argLine += " " + genParam("-T", "title");
 		argLine += " " + genParam("-c", "command");

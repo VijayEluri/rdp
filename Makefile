@@ -30,7 +30,7 @@ run:
 runserver: deploy 
 	@(python ./examples/dev_appserver.py)
 
-deploy: sign 
+deploy: sign
 	@(mkdir -p examples/applet)
 	@(cp rdp.jar examples/applet/; cp -r lib examples/applet/)
 

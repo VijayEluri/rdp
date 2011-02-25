@@ -15,7 +15,7 @@ dojo.require("dojo.string");
         port: args.port,
         host: args.host,
         title: args.title,
-        debug_level: "debug"
+        log_level: "debug"
       });
     }
   };

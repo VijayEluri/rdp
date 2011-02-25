@@ -675,8 +675,9 @@ public class Rdesktop {
 						if (!readytosend) {
 							// maybe the licence server was having a comms
 							// problem, retry?
-							String msg1 = "The terminal server disconnected before licence negotiation completed.";
-							String msg2 = "Possible cause: terminal server could not issue a licence.";
+							// Rather a connection problem, e.g., multiple connections -- Jakob
+							String msg1 = "Cannot connect to server";
+							String msg2 = "The server is either not present or you're already connected from another place";
 							String[] msg = { msg1, msg2 };
 							logger.warn(msg1);
 							logger.warn(msg2);
