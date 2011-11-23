@@ -2,12 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
     <title>RDP Example</title>
     <meta name="description" content="RDP display example">
     <meta name="author" content="Jakob A. Dam">
-    <meta name="viewport" content="width=device-width; initial-scale=1.0">
     <style>
 input {
   width: 200px;
@@ -19,12 +16,15 @@ form {
   margin: 5px 10px 0px 0px;
 }
     </style>
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/resources/dojo.css" /> 
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/tundra/tundra.css" />
-    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js" djConfig="isDebug:true,parseOnLoad:true"></script>
+    <script>
+        djConfig = {
+          baseUrl: "/js/d/",
+          debugAtAllCosts: true
+        };
+    </script>
+    <script src="//static.irigo.com/dojo/1.6.1/dojo/dojo.xd.js"></script>
   </head>
   <body class="tundra">
-    <nav></nav>
     <h1>RDP in the browser</h1>
     <p>This example connects to an RDP server at the specified host
     and port. On Linux, the easiest way to test the RDP client is to
@@ -32,7 +32,7 @@ form {
     under server settings -> display.</p>
     <form id="form">
       <fieldset>
-        <div class="vf__notice">
+        <div>
           <p>All fields are required.</p>
         </div>
         <ol>
@@ -40,13 +40,13 @@ form {
             <label tooltip="port" for="port">
               Port<span class="asterisk_required">*</span>
             </label>
-            <input type="text" name="port" id="port" label="Port" placeholder="enter port" required="required" />
+            <input type="text" name="port" id="port" value="8240" label="Port" placeholder="enter port" required="required" />
           </li>
           <li>
             <label tooltip="host" for="host">
               Host<span class="asterisk_required">*</span>
             </label>
-            <input type="text" name="host" id="host" label="Host" placeholder="enter host" required="required" />
+            <input type="text" name="host" id="host" label="Host" value="localhost" placeholder="enter host" required="required" />
           </li>
           <li>
             <label tooltip="Language for keymapping" for="keymap">
@@ -86,31 +86,26 @@ form {
 
     <div id="applets"></div>
 
-    <footer></footer> 
-
-    <script src="/js/applet.js"></script>
-    <script src="/js/rdp.js"></script>
   <script>
+dojo.require('rdp.Viewer');
+
 dojo.ready(function(){
 
-  function getArgs(){
-    return {
-      host: dojo.byId('host').value,
-      port: dojo.byId('port').value,
-      keymap: dojo.byId('keymap').value,
-      title: "RDP Viewer"
-    };
-  }
-
   dojo.byId('form').onsubmit = function(e){
-    e.preventDefault();
     if(this.checkValidity && !this.checkValidity()){
       alert("please fill out form");
     }
     else{
-      rdp.start('applets', getArgs());
+      var viewer = new rdp.Viewer({      
+        host: dojo.byId('host').value,
+        port: dojo.byId('port').value,
+        keymap: dojo.byId('keymap').value,
+        node: dojo.byId('applets'),
+        title: "RDP Viewer"
+      });
+      viewer.start();
     }
-    return false;
+    e.preventDefault();
   }
 });
     </script>

@@ -1,11 +1,11 @@
 OUTPUT = bin
 SOURCES := $(shell find src src1.4 -type f -name \*.java)
-LIBS = lib/java-getopt-1.0.13.jar:lib/log4j-java1.1.jar
+LIBS = lib/java-getopt-1.0.13.jar:lib/log4j-java1.1.jar:lib/plugin.jar
 FLAGS = -target 1.5 -classpath $(LIBS) -d $(OUTPUT)
 KEYSTORE_ALIAS = "dev"
 KEYSTORE_PASS = "123456"
 
-all: jar
+all: sign
 
 build:
 	@(mkdir -p bin/keymaps)
@@ -13,7 +13,7 @@ build:
 	@(find keymaps -type f -not -regex ".*svn.*" -exec cp {} bin/{} \;)
 
 unjarlibs:
-	cd bin; find ../lib -type f -not -regex ".*svn.*" -name \*.jar -exec jar xfv {} \;
+	cd bin; find ../lib -type f -not -regex ".*svn.*" -name \*.jar -not -name plugin.jar -exec jar xfv {} \;
 	rm -rf bin/META-INF
 
 jar: build unjarlibs
@@ -28,9 +28,9 @@ run:
 	java -jar rdp.jar $(ARGS)
 
 runserver: deploy 
-	@(python ./examples/dev_appserver.py)
+	@(cd examples; python -m SimpleHTTPServer)
 
 deploy: sign
-	@(mkdir -p examples/applet)
-	@(cp rdp.jar examples/applet/; cp -r lib examples/applet/)
+	@(mkdir -p examples/js/rdp/resources)
+	@(cp rdp.jar examples/js/rdp/resources; cp -r lib/java-getopt-1.0.13.jar lib/log4j-java1.1.jar examples/js/rdp/resources)
 

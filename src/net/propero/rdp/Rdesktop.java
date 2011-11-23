@@ -779,6 +779,8 @@ public class Rdesktop {
 			window.setVisible(false);
 			window.dispose();
 		}
+		
+		RdpEventPublisher.publish(RdpEvent.DESTROY, "Destroying RDesktop");
 
 		System.gc();
 

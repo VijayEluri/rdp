@@ -30,17 +30,48 @@
 
 package net.propero.rdp.applet;
 
-import java.applet.Applet;
+import java.io.File;
+import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.StringTokenizer;
 
 import net.propero.rdp.Common;
-import net.propero.rdp.Rdesktop;
+import net.propero.rdp.RdpEvent;
+import net.propero.rdp.RdpEventPublisher;
+import net.propero.rdp.RdpEventSubscriber;
 
-public class RdpApplet extends Applet {
+public class RdpApplet extends Applet2 {
 
+	private String id;
+	
 	public void start() {
+		System.out.println("new applet");
+		id = getRequiredParameter("id");
+		subscribeToRdpEvents();
+		
 		Common.underApplet = true;
-		new RdpAppletThread(getArgs()).start();
+//		try {
+//			AccessController.doPrivileged(new PrivilegedExceptionAction() {
+//				public Object run() throws IOException, Exception {
+					new RdpAppletThread(getArgs()).start();
+//					return null;
+//				}
+//			});
+//		} catch (PrivilegedActionException e) {
+//			e.printStackTrace();
+//		}
+	}
+	
+	private void subscribeToRdpEvents(){
+		RdpEventPublisher.subscribe(new RdpEventSubscriber(){
+			
+			@Override
+			public void destroy(String msg){
+				publishEvent(RdpEvent.DESTROY, id, msg);
+			}
+		});
 	}
 
 	private String genFlag(String flag, String parameter) {
