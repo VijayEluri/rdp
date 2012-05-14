@@ -52,16 +52,7 @@ public class RdpApplet extends Applet2 {
 		subscribeToRdpEvents();
 		
 		Common.underApplet = true;
-//		try {
-//			AccessController.doPrivileged(new PrivilegedExceptionAction() {
-//				public Object run() throws IOException, Exception {
-					new RdpAppletThread(getArgs()).start();
-//					return null;
-//				}
-//			});
-//		} catch (PrivilegedActionException e) {
-//			e.printStackTrace();
-//		}
+        publishEvent(RdpEvent.INIT, id);
 	}
 	
 	private void subscribeToRdpEvents(){

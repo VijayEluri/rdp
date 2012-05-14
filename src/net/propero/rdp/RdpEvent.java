@@ -1,7 +1,7 @@
 package net.propero.rdp;
 
 public enum RdpEvent {
-	
+	INIT("init"),	
 	DESTROY("destroy");
 	
 	private String name;
