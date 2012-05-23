@@ -17,12 +17,18 @@ form {
 }
     </style>
     <script>
-        djConfig = {
-          baseUrl: "/js/d/",
-          debugAtAllCosts: true
-        };
+      var djConfig = { 
+          async:1,
+          packages: [{
+            name: 'java',
+            location: '/js/java'
+          },{
+            name: 'rdp',
+            location: '/js/rdp'
+          }      
+      ]};
     </script>
-    <script src="//static.irigo.com/dojo/1.6.1/dojo/dojo.xd.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js"></script>
   </head>
   <body class="tundra">
     <h1>RDP in the browser</h1>
@@ -87,26 +93,32 @@ form {
     <div id="applets"></div>
 
   <script>
-dojo.require('rdp.Viewer');
+require([
+'dojo/ready',
+'dojo/dom',
+'rdp/Viewer'
+], function(ready, dom, rdpViewer){
 
-dojo.ready(function(){
+    ready(function(){
+     
+      dom.byId('form').onsubmit = function(e){
+        if(this.checkValidity && !this.checkValidity()){
+          alert("please fill out form");
+        }
+        else{
+          rdpViewer.keymap = dom.byId('keymap').value;
 
-  dojo.byId('form').onsubmit = function(e){
-    if(this.checkValidity && !this.checkValidity()){
-      alert("please fill out form");
-    }
-    else{
-      var viewer = new rdp.Viewer({      
-        host: dojo.byId('host').value,
-        port: dojo.byId('port').value,
-        keymap: dojo.byId('keymap').value,
-        node: dojo.byId('applets'),
-        title: "RDP Viewer"
-      });
-      viewer.start();
-    }
-    e.preventDefault();
-  }
+          var viewer = new rdpViewer({      
+            host: dom.byId('host').value,
+            port: dom.byId('port').value,
+            node: dom.byId('applets'),
+            title: "RDP Viewer"
+          });
+          viewer.start();
+        }
+        e.preventDefault();
+      }
+    });
 });
     </script>
   </body>
